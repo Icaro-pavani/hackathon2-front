@@ -131,6 +131,12 @@ const GlobalStyle = createGlobalStyle`
     
     * {
         box-sizing: border-box;
+
+        --roxo-escuro: #21325e;
+        --roxo: #3e497a;
+        --amarelo: #f1d00a;
+        --cinza: #d5d5d5;
+        --branco: #fff;
     }
 
    
