@@ -148,7 +148,7 @@ const Alternativas = styled.ul`
 
   .correta {
     border: ${(props) =>
-      props.checagem === true ? "1px solid green" : "2px solid var(--cinza)"};
+      props.checagem === true ? "2px solid green" : "2px solid var(--cinza)"};
   }
 `;
 
