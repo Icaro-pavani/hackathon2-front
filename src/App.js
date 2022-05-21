@@ -13,8 +13,7 @@ export default function App() {
       <HackathonContext.Provider value={{}}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<PaginaInicial />} />
-            <Route path="/materia" element={<PaginaMateria />} />
+            <Route path="/" element={<PaginaMateria />} />
             <Route path="/aula" element={<PaginaAula />} />
           </Routes>
         </BrowserRouter>
