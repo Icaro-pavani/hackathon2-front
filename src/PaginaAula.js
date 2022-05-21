@@ -1,90 +1,84 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import HackathonContext from "./context/HackathonContext";
+import Header from "./components/Header";
 
-const questoes = {
-  name: "Reconhecendo os números",
-  questoes: [
-    {
-      questão: "Podemos dizer que o número a seguir indica: 32ºC",
-      alternativas: [
-        {
-          alternativa: "Medida",
-          correta: true,
-        },
-        {
-          alternativa: "Código de Identificação",
-          correta: false,
-        },
-      ],
-    },
-    {
-      questão: "Podemos dizer que os números a seguir indicam: 40% 10%",
-      alternativas: [
-        {
-          alternativa: "Quantidades",
-          correta: true,
-        },
-        {
-          alternativa: "Códigos de Identificação",
-          correta: false,
-        },
-      ],
-    },
-    {
-      questão:
-        "Podemos dizer que os números a seguir indicam: CPF: 124.325.456-55",
-      alternativas: [
-        {
-          alternativa: "Quantidades",
-          correta: false,
-        },
-        {
-          alternativa: "Códigos de Identificação",
-          correta: true,
-        },
-      ],
-    },
-  ],
-};
 export default function PaginaAula() {
-  const [questao, setQuestao,setAlternativa] = useState(0);
+  const [questao, setQuestao] = useState(0);
+  const [alternativa, setAlternativa] = useState(0);
+
+  const { materiaInfo } = useContext(HackathonContext);
+  console.log(materiaInfo);
+
   return (
     <PaginaAulaContainer>
+      <Header name={materiaInfo.name} />
       <iframe
         width="100%"
         height="300px"
-        src="https://www.youtube.com/embed/0P5sRUHbueE"
+        src={`${materiaInfo.video}`}
         frameBorder="0"
         allowFullScreen
         title="VideoAula"
       />
       <NavQuestoes num={questao}>
-        {questoes.questoes.map((questao, index) => (
-          <h3 key={index} onClick={() => setQuestao(index)}>
-            {index + 1}
-          </h3>
-        ))}
+        {materiaInfo.exercicios ? (
+          materiaInfo.exercicios[0].questoes.map((questao, index) => (
+            <h3 key={index} onClick={() => setQuestao(index)}>
+              {index + 1}
+            </h3>
+          ))
+        ) : (
+          <></>
+        )}
       </NavQuestoes>
+      <ion-icon name="time-outline"></ion-icon>
       <Conteudo>
-        <p>{questoes.questoes[questao].questão}</p>
-        <Alternativas>
-          {questoes.questoes[questao].alternativas.map((alternativa, index) => (
-            <li key={index} onClick={() => setAlternativa(index)}>{`${index + 1}. ${alternativa.alternativa}`}</li>
-          ))}
+        <Titulo>
+          {materiaInfo?.exercicios[0].questoes[questao]["questão"]}
+        </Titulo>
+        <Alternativas alternativa={alternativa}>
+          {materiaInfo.exercicios ? (
+            materiaInfo.exercicios[0].questoes[questao].alternativas.map(
+              (alternativa, index) => (
+                <li key={index} onClick={() => setAlternativa(index + 1)}>{`${
+                  index + 1
+                }. ${alternativa.alternativa}`}</li>
+              )
+            )
+          ) : (
+            <></>
+          )}
         </Alternativas>
+        <button>Chequar Resposta</button>
       </Conteudo>
     </PaginaAulaContainer>
   );
 }
 
 const PaginaAulaContainer = styled.div`
+  font-family: "Rubik", sans-serif;
   width: 100%;
+  margin-top: 70px;
+
+  button {
+    height: 50px;
+    width: 150px;
+    color: var(--branco);
+    background-color: var(--amarelo);
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    margin-top: 40px;
+  }
 `;
 
 const NavQuestoes = styled.ul`
   width: 100%;
   overflow-x: hidden;
   display: flex;
+  font-size: 20px;
+  color: #89838f;
 
   h3 {
     display: flex;
@@ -121,10 +115,22 @@ const Alternativas = styled.ul`
 
   li {
     width: 100%;
+    height: 52px;
     border: 2px solid var(--cinza);
     font-size: 20px;
     line-height: 28px;
     border-radius: 10px;
     margin-top: 20px;
+    padding: 12px 16px;
   }
+
+  li:nth-child(${(props) => props.alternativa}) {
+    color: var(--roxo);
+    background-color: var(--cinza);
+  }
+`;
+
+const Titulo = styled.h1`
+  font-family: "Rubik", sans-serif;
+  font-size: 24px;
 `;

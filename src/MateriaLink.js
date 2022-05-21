@@ -1,9 +1,22 @@
 import styled from "styled-components";
+import { useContext } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 
-export default function MateriaLink({ name }) {
+import HackathonContext from "./context/HackathonContext";
+import { useNavigate } from "react-router-dom";
+
+export default function MateriaLink({ name, submateria }) {
+  const { setMateriaInfo } = useContext(HackathonContext);
+
+  const navigate = useNavigate();
+
   return (
-    <MateriaLinkContainer>
+    <MateriaLinkContainer
+      onClick={() => {
+        setMateriaInfo({ ...submateria });
+        navigate("/aula");
+      }}
+    >
       <h2>{name}</h2>
       <IoIosArrowForward className="materia-icon" />
     </MateriaLinkContainer>

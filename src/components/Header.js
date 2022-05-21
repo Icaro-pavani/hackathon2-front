@@ -1,44 +1,29 @@
-import React, { Component } from 'react';
-import Button from './Button';
+import styled from "styled-components";
 
-class Header extends Component {
-  
-    render(){
-      const styles={
-        display:'grid',    
-        width: '100%',
-        margin: '0 auto 1rem auto',
-        fontFamily:'Times New Roman',
-        fontSize:'2.5rem'
+export default function Header({ name }) {
+  return (
+    <Top>
+      <h1>{name}</h1>
+    </Top>
+  );
+}
 
-      }
-      
-      
-      const buttonRow={
-        display: 'flex',
-        flex:'row',
-        flexDirection: 'column',
-        justifyContent: 'space-between'
-      }
-      
-      
-      return (
-        
-        
-        <div style={styles}>
-            <h1 style={{fontSize:'2.5rem'}} >{this.props.headline}</h1>
-            <div>{this.props.text}</div>
-            <div style={buttonRow}>
-            {this.props.buttons.map((button, index)=> {
-              return <Button name={button.name} path={button.path} key={index} />
-              })
-            }
-          </div>
-        </div>
-      )  
-    
-    }
+const Top = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+  background-color: var(--roxo);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+  h1 {
+    font-family: "Rubik", sans-serif;
+    font-size: 40px;
+    color: #fff;
   }
-  
-  
-  export default Header;
+`;

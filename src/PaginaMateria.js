@@ -1,38 +1,62 @@
 import { IoMdHome } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import MateriaLink from "./MateriaLink";
 
-const materias = ["Algebra", "Geometria", "Grandezas", "Probabilidade"];
-const subMaterias = [
-  { name: "Percebendo padrões", id: "jksdfnj" },
-  { name: "Reconhecendo padrões", id: "ausha" },
-];
+// const materias = ["Algebra", "Geometria", "Grandezas", "Probabilidade"];
+// const subMaterias = [
+//   { name: "Percebendo padrões", id: "jksdfnj" },
+//   { name: "Reconhecendo padrões", id: "ausha" },
+// ];
 
 export default function PaginaMateria() {
   const navigate = useNavigate();
 
   const [num, setNum] = useState(0);
+  const [materias, setMateria] = useState([]);
+  const [subMaterias, setSubMaterias] = useState([]);
+
+  const URL = "https://hackaton2-api.herokuapp.com";
+
+  useEffect(() => {
+    const promise = axios.get(`${URL}/temas`);
+    promise.then(({ data }) => {
+      setMateria([...data]);
+    });
+    promise.catch((error) => console.log(error.response));
+  }, []);
+
+  useEffect(() => {
+    const promise = axios.get(`${URL}/materias/${materias[num]?._id}`);
+    promise.then(({ data }) => {
+      setSubMaterias([...data]);
+    });
+  }, [num, materias]);
 
   return (
     <>
       <MateriaHeader>
         <Titulo>
-          <h1>Matemática EF</h1>
+          <h1>Mathetrics</h1>
           <IoMdHome className="menu-icon" onClick={() => navigate("/")} />
         </Titulo>
         <NavBar num={num}>
           {materias.map((materia, index) => (
             <p key={index} onClick={() => setNum(index)}>
-              {materia}
+              {materia.theme}
             </p>
           ))}
         </NavBar>
       </MateriaHeader>
       <SubMaterias>
         {subMaterias.map((submateria, index) => (
-          <MateriaLink name={submateria.name} key={index} />
+          <MateriaLink
+            submateria={submateria}
+            name={submateria.name}
+            key={index}
+          />
         ))}
       </SubMaterias>
     </>
