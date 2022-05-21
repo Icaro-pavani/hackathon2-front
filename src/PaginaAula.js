@@ -6,8 +6,10 @@ import Header from "./components/Header";
 export default function PaginaAula() {
   const [questao, setQuestao] = useState(0);
   const [alternativa, setAlternativa] = useState(0);
+  const [checagem, setChecagem] = useState(false);
 
   const { materiaInfo } = useContext(HackathonContext);
+  console.log(checagem);
   console.log(materiaInfo);
 
   return (
@@ -23,8 +25,14 @@ export default function PaginaAula() {
       />
       <NavQuestoes num={questao}>
         {materiaInfo.exercicios ? (
-          materiaInfo.exercicios[0].questoes.map((questao, index) => (
-            <h3 key={index} onClick={() => setQuestao(index)}>
+          materiaInfo.exercicios.map((questao, index) => (
+            <h3
+              key={index}
+              onClick={() => {
+                setQuestao(index);
+                setChecagem(false);
+              }}
+            >
               {index + 1}
             </h3>
           ))
@@ -34,23 +42,32 @@ export default function PaginaAula() {
       </NavQuestoes>
       <ion-icon name="time-outline"></ion-icon>
       <Conteudo>
-        <Titulo>
-          {materiaInfo?.exercicios[0].questoes[questao]["questão"]}
-        </Titulo>
-        <Alternativas alternativa={alternativa}>
+        <Titulo>{materiaInfo?.exercicios[questao]["questao"]}</Titulo>
+        <Alternativas alternativa={alternativa} checagem={checagem}>
           {materiaInfo.exercicios ? (
-            materiaInfo.exercicios[0].questoes[questao].alternativas.map(
-              (alternativa, index) => (
-                <li key={index} onClick={() => setAlternativa(index + 1)}>{`${
-                  index + 1
-                }. ${alternativa.alternativa}`}</li>
-              )
+            materiaInfo.exercicios[questao].alternativas.map(
+              (alternativa, index) => {
+                if (alternativa.correta === true) {
+                  return (
+                    <li
+                      key={index}
+                      className="correta"
+                      onClick={() => setAlternativa(index + 1)}
+                    >{`${index + 1}. ${alternativa.alternativa}`}</li>
+                  );
+                }
+                return (
+                  <li key={index} onClick={() => setAlternativa(index + 1)}>{`${
+                    index + 1
+                  }. ${alternativa.alternativa}`}</li>
+                );
+              }
             )
           ) : (
             <></>
           )}
         </Alternativas>
-        <button>Chequar Resposta</button>
+        <button onClick={() => setChecagem(true)}>Chequar Resposta</button>
       </Conteudo>
     </PaginaAulaContainer>
   );
@@ -127,6 +144,11 @@ const Alternativas = styled.ul`
   li:nth-child(${(props) => props.alternativa}) {
     color: var(--roxo);
     background-color: var(--cinza);
+  }
+
+  .correta {
+    border: ${(props) =>
+      props.checagem === true ? "1px solid green" : "2px solid var(--cinza)"};
   }
 `;
 

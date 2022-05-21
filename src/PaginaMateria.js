@@ -35,6 +35,8 @@ export default function PaginaMateria() {
     });
   }, [num, materias]);
 
+  console.log(subMaterias);
+
   return (
     <>
       <MateriaHeader>
