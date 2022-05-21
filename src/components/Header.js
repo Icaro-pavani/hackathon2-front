@@ -5,18 +5,19 @@ class Header extends Component {
   
     render(){
       const styles={
-        display:'grid',
-        gridTemplateColumns: '40% 50%',
-        gridTemplateRows: '2fr 1fr 1fr',      
-        width: '80%',
-        margin: '2rem auto 1rem auto'
+        display:'grid',    
+        width: '100%',
+        margin: '0 auto 1rem auto',
+        fontFamily:'Times New Roman',
+        fontSize:'2.5rem'
+
       }
       
       
       const buttonRow={
         display: 'flex',
         flex:'row',
-        "flex-direction": 'column',
+        flexDirection: 'column',
         justifyContent: 'space-between'
       }
       

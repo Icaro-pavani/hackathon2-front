@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as  Link } from "react-router-dom";
 
 
 class Button extends Component {
   render() {    
     const button={
       padding: '0 40px',
-      height: '40px',
+      height: '100px',
       color: '#3E497A',
-      background: '#21325E',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
